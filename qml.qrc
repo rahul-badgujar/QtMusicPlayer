@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MiniPlayer.qml</file>
+        <file>OptionBar.qml</file>
+        <file>ContentArea.qml</file>
+        <file>OptionButton.qml</file>
+    </qresource>
+</RCC>

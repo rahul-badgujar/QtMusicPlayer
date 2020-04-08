@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/Dark">
+        <file alias="playlist-dark">Resources/Icon/playlist-dark.png</file>
+        <file alias="add-dark">Resources/Icon/add-dark.png</file>
+        <file alias="settings-dark">Resources/Icon/settings-dark.png</file>
+        <file alias="volume-dark">Resources/Icon/volume-dark.png</file>
+        <file alias="color-dark">Resources/Icon/color-dark.png</file>
+        <file alias="search-dark">Resources/Icon/search-dark.png</file>
+        <file alias="sun">Resources/Icon/sun.png</file>
+        <file alias="admin-dark">Resources/Icon/admin-dark.png</file>
+    </qresource>
+    <qresource prefix="/Light">
+        <file alias="playlist-light">Resources/Icon/playlist-light.png</file>
+        <file alias="add-light">Resources/Icon/add-light.png</file>
+        <file alias="settings-light">Resources/Icon/settings-light.png</file>
+        <file alias="volume-light">Resources/Icon/volume-light.png</file>
+        <file alias="color-light">Resources/Icon/color-light.png</file>
+        <file alias="moon">Resources/Icon/moon.png</file>
+        <file alias="search-light">Resources/Icon/search-light.png</file>
+        <file alias="admin-light">Resources/Icon/admin-light.png</file>
+    </qresource>
+</RCC>
