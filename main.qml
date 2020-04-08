@@ -3,6 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
+import QtQuick.Dialogs 1.2
 
 ApplicationWindow {
     visible: true
@@ -160,6 +161,8 @@ ApplicationWindow {
             visible: true
             anchors.bottom: parent.bottom
         }
+
+
     }
 
 }

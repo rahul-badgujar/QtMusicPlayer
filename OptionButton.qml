@@ -11,7 +11,10 @@ Rectangle {
     property string darkIcon: ""
     //Material.background: parent.Material.background
     color: parent.Material.background
+    opacity: 0.8
     enabled: true
+    border.color: application.Material.primary
+    border.width: 0
     Control {
         id: ctr
         anchors.fill: parent
@@ -24,14 +27,22 @@ Rectangle {
             sourceSize.height: parent.height/optionBar.totalOptions
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Material.elevation: 100
+
         }
     }
     MouseArea {
         id: mouse
         anchors.fill: parent
         hoverEnabled: true
-        onEntered: parent.color= application.lightThemeOn ? "#b3b3b3" : "#4d4d4d"
-        onExited: parent.color= parent.Material.background
+        onEntered: {
+            parent.border.width=1
+            parent.opacity=1
+        }
+        onExited: {
+            parent.border.width=0
+            parent.opacity=0.8
+        }
+
         onClicked: parent.onButtonClicked()
     }
 }
