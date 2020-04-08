@@ -5,14 +5,13 @@ import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 
 Pane {
-    id: rect
+    id: button
 
     property string lightIcon: ""
     property string darkIcon: ""
     padding: 0
     //Material.background: parent.Material.background
     Material.background: parent.Material.background
-    opacity: 1
     enabled: true
 
     Control {
@@ -20,13 +19,14 @@ Pane {
         anchors.fill: parent
         padding: parent.height/4
         contentItem:  Image {
-            id: button
+            id: img
             fillMode: Image.PreserveAspectFit
+            opacity: 0.8
             source: application.lightThemeOn ? darkIcon: lightIcon
             sourceSize.width: parent.width
             sourceSize.height: parent.height/optionBar.totalOptions
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Material.elevation: 100
+            Material.elevation: 10
 
         }
     }
@@ -35,10 +35,12 @@ Pane {
         anchors.fill: parent
         hoverEnabled: true
         onEntered: {
-            parent.opacity=0.7
+            img.opacity=1
+            img.Material.elevation=500
         }
         onExited: {
-            parent.opacity=1
+            img.opacity=0.8
+            img.Material.elevation=100
         }
 
         onClicked: onButtonClicked()
