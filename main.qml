@@ -3,6 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
+import QtQuick.Dialogs 1.2
 
 ApplicationWindow {
     visible: true
@@ -29,6 +30,8 @@ ApplicationWindow {
         id: appRect
         anchors.fill: parent
 
+        color: parent.Material.background
+
         focus: true
         Keys.onPressed: {
             if ((event.key === Qt.Key_T) && (event.modifiers & Qt.ControlModifier))
@@ -52,10 +55,6 @@ ApplicationWindow {
 
 
             ColumnLayout {
-                /*anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                anchors.right: parent.height*/
                 anchors.fill: parent
                 spacing: 0
 
@@ -63,6 +62,7 @@ ApplicationWindow {
                     id: search_button
                     darkIcon: "qrc:/Dark/search-dark"
                     lightIcon: "qrc:/Light/search-light"
+
                     Layout.preferredWidth: parent.width
                     Layout.preferredHeight: parent.height/optionBar.totalOptions
 
@@ -152,6 +152,7 @@ ApplicationWindow {
             visible: true
             anchors.right: parent.right
             anchors.top: parent.top
+            anchors.bottom: parent.bottom
 
         }
 
@@ -160,6 +161,8 @@ ApplicationWindow {
             visible: true
             anchors.bottom: parent.bottom
         }
+
+
     }
 
 }

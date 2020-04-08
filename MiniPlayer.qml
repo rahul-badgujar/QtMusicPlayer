@@ -12,6 +12,7 @@ Pane {
     width: parent.width
     height: parent.height*(1/6)
     visible: true
+    opacity: 0.7
 
 
     Material.background: application.Material.primary

@@ -6,6 +6,5 @@ import QtQuick.Controls.Material 2.12
 Pane {
     id: bar
     width: parent.width
-    height: parent.height/6
-    x:0 ; y:0
+    height: parent.height*(5/6)
 }
