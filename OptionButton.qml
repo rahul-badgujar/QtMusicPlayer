@@ -17,7 +17,7 @@ Pane {
     Control {
         id: ctr
         anchors.fill: parent
-        padding: parent.height/4
+        padding: parent.height/3.2
         contentItem:  Image {
             id: img
             fillMode: Image.PreserveAspectFit

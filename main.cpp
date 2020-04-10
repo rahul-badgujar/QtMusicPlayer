@@ -8,6 +8,10 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    app.setOrganizationName("RB Orgnanizations");
+    app.setOrganizationDomain("rborganizations.com");
+    app.setApplicationName("Music Player");
+
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

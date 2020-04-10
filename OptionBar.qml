@@ -8,7 +8,7 @@ import QtQuick.Dialogs 1.2
 Pane {
     id: optionBar
     width: parent.width/10
-    height: parent.height*(5/6)
+    height: parent.height*(7.7/10)
     padding: 0
 
 
@@ -93,7 +93,7 @@ Pane {
             Layout.preferredHeight: parent.height/optionBar.totalOptions
 
             function onButtonClicked() {
-                console.log("color Button Clicked")
+                colorPicker.open()
             }
         }
 

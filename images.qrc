@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/player">
+        <file alias="no_album_cover">Resources/images/no_album_cover.png</file>
+    </qresource>
+</RCC>

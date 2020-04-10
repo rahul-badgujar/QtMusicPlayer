@@ -4,6 +4,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.2
+import Qt.labs.settings 1.1
 
 ApplicationWindow {
     visible: true
@@ -13,13 +14,18 @@ ApplicationWindow {
     //flags: Qt.FramelessWindowHint
     title: qsTr("Music Player")
     Material.theme: lightThemeOn ? Material.Light : Material.Dark
-    Material.primary: Material.Indigo
-    Material.background: lightThemeOn ? "#f2f2f2" : "#262626"
-    Material.accent: Material.Indigo
-    //Material.foreground: Material.color(Material.Grey,Material.Shade100)
+    Material.primary: themeColor
+    Material.background: lightThemeOn ? lightBackground : darkBackground
+    Material.accent: themeColor
+    Material.foreground: lightThemeOn ? darkForeground : lightForeground
 
     property bool lightThemeOn: true
     property var barsColor: Material.color(Material.Grey,Material.Shade200)
+    property color themeColor: "#5900b3"
+    property color lightBackground: "#f2f2f2"
+    property color darkBackground: "#262626"
+    property color lightForeground: "#f2f2f2"
+    property color darkForeground: "#0d0d0d"
 
     function changeTheme() {
         //console.log("in changeTheme()");
@@ -60,7 +66,24 @@ ApplicationWindow {
             anchors.bottom: parent.bottom
         }
 
-
+    }
+    ColorDialog {
+        id: colorPicker
+        title: "Select Theme Color"
+        showAlphaChannel: false
+        onAccepted: {
+            application.themeColor=color
+            close()
+        }
+        onRejected: {
+            close()
+        }
+    }
+    Settings {
+        id: settings
+        category: "Application Settings"
+        property alias appThemeMode: application.lightThemeOn
+        property alias colorTheme: application.themeColor
     }
 
 }
