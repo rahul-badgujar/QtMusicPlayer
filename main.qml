@@ -11,6 +11,10 @@ ApplicationWindow {
     id: application
     width: Screen.width*(2/5)
     height: Screen.height*(2/3)
+    maximumHeight: height
+    maximumWidth: width
+    minimumHeight: height
+    minimumWidth: width
     //flags: Qt.FramelessWindowHint
     title: qsTr("Music Player")
     Material.theme: lightThemeOn ? Material.Light : Material.Dark
