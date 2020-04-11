@@ -4,6 +4,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 import Qt.labs.settings 1.1
+import QtMultimedia 5.12
 
 
 Pane {
@@ -31,7 +32,7 @@ Pane {
 
         background: Image {
             id: albumCover
-            source: audioPlayer.metaData.posterUrl ? audioPlayer.metaData.posterUrl : "qrc:/player/no_album_cover"
+            source: audioPlayer.metaData.coverArtUrlSmall ? audioPlayer.metaData.coverArtUrlSmall : "qrc:/player/no_album_cover"
             fillMode: Image.PreserveAspectFit
             sourceSize.width: parent.width
             sourceSize.height: parent.height
@@ -104,7 +105,7 @@ Pane {
 
     Pane {
         id: songDetailsPane
-        width: parent.width*(1.7/5)
+        width: parent.width*(2/5)
         height: parent.height*(2.5/4)
 
         anchors.left: albumCoverPane.right
@@ -115,17 +116,22 @@ Pane {
             Text {
                 id: songTitle
                 text: audioPlayer.metaData.title ? audioPlayer.metaData.title : "Title Unavailable"
-                font.pointSize: 12
+                width: parent.width*(1.7/5)
+                height: parent.height*(2.5/4)
+                elide: Text.ElideRight
+                font.pointSize: 9
                 color: application.lightForeground
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                font.bold: true
+                //Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             }
 
             Text {
                 id: albumTitle
                 text: audioPlayer.metaData.albumTitle ? audioPlayer.metaData.albumTitle : "Album Unavailable"
-                font.pointSize: 9
+                font.pointSize: 8
+                font.italic: true
                 color: application.lightForeground
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                //Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             }
         }
 
@@ -134,7 +140,7 @@ Pane {
     Pane {
         id: contolsPane
         height: parent.height*(2.5/4)
-        width: parent.width*(2.25/5)
+        width: parent.width*(2/5)
         anchors.bottom: parent.bottom
         anchors.right: parent.right
 
@@ -156,6 +162,7 @@ Pane {
                 }
                 onClicked: {
                     console.log("Previous Song Plz")
+                    audioPlayer.playlist.previous()
                 }
             }
             Button {
@@ -174,13 +181,14 @@ Pane {
                 }
                 onClicked: {
                     console.log("Play/Pause Song Plz")
-                    if(songPlaying) {
+                    if(audioPlayer.playbackState==MediaPlayer.PlayingState) {
                             audioPlayer.pause()
+                            songPlaying=false
                     }
                     else {
                         audioPlayer.play()
+                        songPlaying=true
                     }
-                    songPlaying=!songPlaying
                 }
             }
             Button {
@@ -196,6 +204,7 @@ Pane {
                 }
                 onClicked: {
                     console.log("Next Song Plz")
+                    audioPlayer.playlist.next()
                 }
             }
             Button {

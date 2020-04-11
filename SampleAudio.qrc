@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/songs">
+        <file>Resources/audio/Bas Mein.mp3</file>
+        <file>Resources/audio/Chan Kitthan.mp3</file>
+        <file>Resources/audio/Har Gully Mein Dhoni Hai.mp3</file>
+    </qresource>
+</RCC>

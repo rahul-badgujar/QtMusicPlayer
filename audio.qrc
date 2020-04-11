@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/samples">
-        <file alias="sample">Resources/audio/sample.wav</file>
+        <file>Resources/audio/sample.wav</file>
+        <file>Resources/audio/in.ogg</file>
+        <file>Resources/audio/out.ogg</file>
+        <file>Resources/audio/out.wav</file>
     </qresource>
 </RCC>

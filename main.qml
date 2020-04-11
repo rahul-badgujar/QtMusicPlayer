@@ -10,7 +10,7 @@ import QtMultimedia 5.12
 ApplicationWindow {
     visible: true
     id: application
-    width: Screen.width*(2/5)
+    width: Screen.width*(2.5/5)
     height: Screen.height*(2/3)
     maximumHeight: height
     maximumWidth: width
@@ -72,6 +72,7 @@ ApplicationWindow {
         }
 
     }
+
     ColorDialog {
         id: colorPicker
         title: "Select Theme Color"
@@ -85,14 +86,40 @@ ApplicationWindow {
         }
     }
 
-    Audio {
-        id: audioPlayer
-        audioRole: Audio.MusicRole
-        source: "qrc:/samples/sample"
-        playlist: Playlist {
-            id: audioPlaylist
+    FileDialog {
+        id: filesLoader
+        title: "Chose files to add to playlist"
+        folder: shortcuts.music
+        selectMultiple: true
+        selectExisting: true
+        nameFilters: ["Mp3 Files (*.mp3)"]
+        onAccepted: {
+            audioPlaylist.addItems(fileUrls)
+            if(audioPlaylist.save("file://E:/Playlist/")) {
+                console.log("Playlist Saved")
+            }
+            else {
+                console.log("Playlist Save  Failed"+audioPlaylist.errorString)
+            }
+
         }
     }
+
+   Audio {
+        id: audioPlayer
+        audioRole: Audio.MusicRole
+        playlist: Playlist {
+            id: audioPlaylist
+
+            onLoaded: {
+                console.log("Playlist loading successful")
+            }
+            onLoadFailed: {
+                console.log("Playlist loading failed")
+            }
+        }
+    }
+
 
     Settings {
         id: appSettings
@@ -100,6 +127,10 @@ ApplicationWindow {
         property alias appThemeMode: application.lightThemeOn
         property alias colorTheme: application.themeColor
 
+    }
+
+    Component.onCompleted: {
+        console.log("Application is loaded")
     }
 
 }

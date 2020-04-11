@@ -56,7 +56,7 @@ Pane {
             Layout.preferredHeight: parent.height/optionBar.totalOptions
 
             function onButtonClicked() {
-                console.log("Add Button Clicked")
+                filesLoader.open()
             }
         }
 
@@ -106,6 +106,7 @@ Pane {
 
             function onButtonClicked() {
                 console.log("Admin Button Clicked")
+                console.log(audioPlayer.playlist.currentItemSource)
             }
         }
     }

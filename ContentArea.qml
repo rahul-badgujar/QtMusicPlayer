@@ -9,13 +9,11 @@ Pane {
     width: parent.width*(9/10)
     height: parent.height
 
-    Material.background: application.Material.background
-
     ListView {
             model: audioPlaylist
             delegate: Text {
-                font.pixelSize: 16;
-                text: source;
+                font.pixelSize: 10;
+                text: source
             }
         }
 }
