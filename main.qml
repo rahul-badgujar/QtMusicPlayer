@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.2
 import Qt.labs.settings 1.1
+import QtMultimedia 5.12
 
 ApplicationWindow {
     visible: true
@@ -83,11 +84,22 @@ ApplicationWindow {
             close()
         }
     }
+
+    Audio {
+        id: audioPlayer
+        audioRole: Audio.MusicRole
+        source: "qrc:/samples/sample"
+        playlist: Playlist {
+            id: audioPlaylist
+        }
+    }
+
     Settings {
-        id: settings
+        id: appSettings
         category: "Application Settings"
         property alias appThemeMode: application.lightThemeOn
         property alias colorTheme: application.themeColor
+
     }
 
 }

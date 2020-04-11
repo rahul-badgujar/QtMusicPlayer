@@ -10,4 +10,12 @@ Pane {
     height: parent.height
 
     Material.background: application.Material.background
+
+    ListView {
+            model: audioPlaylist
+            delegate: Text {
+                font.pixelSize: 16;
+                text: source;
+            }
+        }
 }

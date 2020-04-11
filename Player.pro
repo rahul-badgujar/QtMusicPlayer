@@ -18,6 +18,7 @@ SOURCES += \
         main.cpp
 
 RESOURCES += qml.qrc \
+    audio.qrc \
     icons.qrc \
     images.qrc
 

@@ -3,6 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
+import Qt.labs.settings 1.1
 
 
 Pane {
@@ -30,7 +31,7 @@ Pane {
 
         background: Image {
             id: albumCover
-            source: "qrc:/player/no_album_cover"
+            source: audioPlayer.metaData.posterUrl ? audioPlayer.metaData.posterUrl : "qrc:/player/no_album_cover"
             fillMode: Image.PreserveAspectFit
             sourceSize.width: parent.width
             sourceSize.height: parent.height
@@ -49,14 +50,13 @@ Pane {
         anchors.right: parent.right
         padding: 0
 
-
         background :RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.margins: 0
             Text {
                 id: currentTime
-                text: qsTr("0:00")
+                text: progressBarPane.msToTime(audioPlayer.position) ? progressBarPane.msToTime(audioPlayer.position) : "00:00"
                 font.pointSize: 9
                 Layout.alignment: Qt.AlignRight
                 color: application.lightForeground
@@ -64,22 +64,42 @@ Pane {
             }
             Slider {
                 id: slider
+                from: 0
+                to: audioPlayer.duration
+                value: audioPlayer.position
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                 Material.foreground: application.lightForeground
                 Material.accent: application.lightForeground
 
+                onMoved: {
+                    console.log("Slider moved to "+parseInt(value))
+                    if(audioPlayer.seekable) {
+                        audioPlayer.seek(parseInt(value))
+                    }
+                    else {
+                        value: audioPlayer.position
+                    }
+                }
+
             }
 
             Text {
                 id: totalTime
-                text: qsTr("3:00")
+                text: progressBarPane.msToTime(audioPlayer.duration) ? progressBarPane.msToTime(audioPlayer.duration) : "00:00"
                 font.pointSize: 9
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                 color: application.lightForeground
+
             }
         }
-
+        function msToTime(duration) {
+            var seconds= parseInt((duration/1000)%60);
+            var minutes= parseInt((duration/(1000*60))%60);
+            minutes= minutes<10 ? "0"+minutes : minutes;
+            seconds= seconds<10 ? "0"+seconds : seconds;
+            return minutes+":"+seconds;
+        }
     }
 
     Pane {
@@ -92,23 +112,22 @@ Pane {
 
         background: ColumnLayout {
             spacing: 0
-            Label {
+            Text {
                 id: songTitle
-                text: qsTr("Song Name")
+                text: audioPlayer.metaData.title ? audioPlayer.metaData.title : "Title Unavailable"
                 font.pointSize: 12
                 color: application.lightForeground
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             }
 
-            Label {
-                id: songAuthor
-                text: qsTr("Song Author")
+            Text {
+                id: albumTitle
+                text: audioPlayer.metaData.albumTitle ? audioPlayer.metaData.albumTitle : "Album Unavailable"
                 font.pointSize: 9
                 color: application.lightForeground
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             }
         }
-
 
     }
 
@@ -155,6 +174,12 @@ Pane {
                 }
                 onClicked: {
                     console.log("Play/Pause Song Plz")
+                    if(songPlaying) {
+                            audioPlayer.pause()
+                    }
+                    else {
+                        audioPlayer.play()
+                    }
                     songPlaying=!songPlaying
                 }
             }
@@ -226,6 +251,12 @@ Pane {
         }
 
 
+    }
+
+    Settings {
+        id: miniPlayerSettings
+        category: "MiniPlayer Settings"
+        property alias playmode: playmodeButton.currentMode
     }
 
 }

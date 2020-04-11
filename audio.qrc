@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/samples">
+        <file alias="sample">Resources/audio/sample.wav</file>
+    </qresource>
+</RCC>
