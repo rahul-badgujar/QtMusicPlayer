@@ -126,13 +126,13 @@ Pane {
             Button {
                 id: prevButton
                 Material.elevation: 20
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 background: Image {
                     id: prevButtonImg
                     source: "qrc:/normal/previous"
                     fillMode: Image.PreserveAspectFit
                     sourceSize.width: parent.width/3
                     sourceSize.height: parent.height
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
                 }
                 onClicked: {
@@ -145,13 +145,13 @@ Pane {
                 property string playButtonURL: "qrc:/normal/play"
                 property string pauseButtonURL: "qrc:/normal/pause"
                 property bool songPlaying: false
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 background: Image {
                     id: playButtonImg
                     source: playButton.songPlaying ? playButton.pauseButtonURL : playButton.playButtonURL
                     fillMode: Image.PreserveAspectFit
-                    sourceSize.width: parent.width/3
-                    sourceSize.height: parent.height
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    sourceSize.width: parent.width/2.5
+                    sourceSize.height: parent.height+parent.height/3
                 }
                 onClicked: {
                     console.log("Play/Pause Song Plz")
@@ -161,16 +161,66 @@ Pane {
             Button {
                 id: nextButton
                 Material.elevation: 20
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 background: Image {
                     id: nextButtonImg
                     source: "qrc:/normal/next"
                     fillMode: Image.PreserveAspectFit
                     sourceSize.width: parent.width/3
                     sourceSize.height: parent.height
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 }
                 onClicked: {
                     console.log("Next Song Plz")
+                }
+            }
+            Button {
+                id: playmodeButton
+                property string singlePlaymodeURL: "qrc:/normal/single"
+                property string repeatPlaymodeURL: "qrc:/normal/repeat"
+                property string shufflePlaymodeURL: "qrc:/normal/shuffle"
+                property int currentMode: 0
+                Material.elevation: 20
+                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                background: Image {
+                    id: playmodeButtonImg
+                    source: ""
+                    fillMode: Image.PreserveAspectFit
+                    sourceSize.width: parent.width/3
+                    sourceSize.height: parent.height+parent.height/5
+                }
+                states: [
+                    State {
+                        name: "singlePlaymode"
+                        when: playmodeButton.currentMode==0
+                        PropertyChanges {
+                            target: playmodeButtonImg
+                            source: playmodeButton.singlePlaymodeURL
+
+                        }
+                    },
+                    State {
+                        name: "repeatPlaymode"
+                        when: playmodeButton.currentMode==1
+                        PropertyChanges {
+                            target: playmodeButtonImg
+                            source: playmodeButton.repeatPlaymodeURL
+
+                        }
+                    },
+                    State {
+                        name: "shufflePlaymode"
+                        when: playmodeButton.currentMode==2
+                        PropertyChanges {
+                            target: playmodeButtonImg
+                            source: playmodeButton.shufflePlaymodeURL
+
+                        }
+                    }
+                ]
+                onClicked: {
+                    currentMode= currentMode+1
+                    currentMode= currentMode%3
+                    console.log(currentMode)
                 }
             }
         }

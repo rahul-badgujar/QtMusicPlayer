@@ -24,5 +24,8 @@
         <file alias="pause">Resources/Icon/pause.png</file>
         <file alias="play">Resources/Icon/play.png</file>
         <file alias="previous">Resources/Icon/previous.png</file>
+        <file alias="repeat">Resources/Icon/repeat.png</file>
+        <file alias="shuffle">Resources/Icon/shuffle.png</file>
+        <file alias="single">Resources/Icon/single.png</file>
     </qresource>
 </RCC>
