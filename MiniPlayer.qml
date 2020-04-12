@@ -72,11 +72,13 @@ Pane {
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                 Material.foreground: application.lightForeground
                 Material.accent: application.lightForeground
+                stepSize: 1
 
                 onMoved: {
-                    console.log("Slider moved to "+parseInt(value))
+                    console.log("Slider moved to "+value)
                     if(audioPlayer.seekable) {
                         audioPlayer.seek(parseInt(value))
+
                     }
                     else {
                         value: audioPlayer.position
@@ -180,12 +182,16 @@ Pane {
                     sourceSize.height: parent.height+parent.height/3
                 }
                 onClicked: {
-                    console.log("Play/Pause Song Plz")
+                    //console.log("Play/Pause Song Plz")
                     if(audioPlayer.playbackState==MediaPlayer.PlayingState) {
                             audioPlayer.pause()
                             songPlaying=false
                     }
-                    else {
+                    else if(audioPlayer.playbackState==MediaPlayer.PausedState) {
+                        audioPlayer.play()
+                        songPlaying=true
+                    }
+                    else if(audioPlayer.playbackState==MediaPlayer.StoppedState && !(audioPlayer.status==MediaPlayer.NoMedia) ) {
                         audioPlayer.play()
                         songPlaying=true
                     }

@@ -32,6 +32,7 @@ ApplicationWindow {
     property color lightForeground: "#f2f2f2"
     property color darkForeground: "#0d0d0d"
 
+
     function changeTheme() {
         //console.log("in changeTheme()");
         lightThemeOn=!lightThemeOn;
@@ -88,18 +89,23 @@ ApplicationWindow {
 
     FileDialog {
         id: filesLoader
-        title: "Chose files to add to playlist"
+        title: "Chose Songs"
         folder: shortcuts.music
         selectMultiple: true
         selectExisting: true
         nameFilters: ["Mp3 Files (*.mp3)"]
+
         onAccepted: {
             audioPlaylist.addItems(fileUrls)
-            if(audioPlaylist.save("file://E:/Playlist/")) {
+            if(audioPlaylist.save("file:///C:/MyMusicPlayer/Playlists/global_playlist.m3u","m3u")) {
                 console.log("Playlist Saved")
             }
             else {
                 console.log("Playlist Save  Failed"+audioPlaylist.errorString)
+                console.log(shortcuts.music)
+            }
+            if(audioPlayer.status==MediaPlayer.NoMedia) {
+                audioPlaylist.currentIndex=0
             }
 
         }
@@ -110,12 +116,18 @@ ApplicationWindow {
         audioRole: Audio.MusicRole
         playlist: Playlist {
             id: audioPlaylist
-
+            property int lastSongPlayed: currentIndex
             onLoaded: {
                 console.log("Playlist loading successful")
             }
             onLoadFailed: {
-                console.log("Playlist loading failed")
+                console.log("Playlist loading failed -> "+errorString)
+            }
+
+            Component.onCompleted: {
+                //audioPlaylist.clear()
+                audioPlaylist.load("file:///C:/MyMusicPlayer/Playlists/global_playlist.m3u","m3u")
+                audioPlaylist.currentIndex= lastSongPlayed<=audioPlaylist.itemCount ? lastSongPlayed : 0
             }
         }
     }
@@ -127,6 +139,12 @@ ApplicationWindow {
         property alias appThemeMode: application.lightThemeOn
         property alias colorTheme: application.themeColor
 
+    }
+
+    Settings {
+        id: playerSettings
+        category: "Audio Player Settings"
+        property alias lastSongIndex: audioPlaylist.lastSongPlayed
     }
 
     Component.onCompleted: {
