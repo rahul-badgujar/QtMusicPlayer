@@ -27,8 +27,8 @@ ApplicationWindow {
     property bool lightThemeOn: true
     property var barsColor: Material.color(Material.Grey,Material.Shade200)
     property color themeColor: "#5900b3"
-    property color lightBackground: "#f2f2f2"
-    property color darkBackground: "#262626"
+    property color lightBackground: "white"
+    property color darkBackground: "black"
     property color lightForeground: "#f2f2f2"
     property color darkForeground: "#0d0d0d"
 
@@ -52,6 +52,8 @@ ApplicationWindow {
 
         OptionBar {
             id: optionBar
+            width: parent.width/12
+            height: parent.height*(7.7/10)
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.right: contentArea.left
@@ -60,6 +62,8 @@ ApplicationWindow {
         ContentArea {
             id: contentArea
             visible: true
+            width: parent.width*(11/12)
+            //height: parent.height
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -97,21 +101,25 @@ ApplicationWindow {
 
         onAccepted: {
             audioPlaylist.addItems(fileUrls)
+
             if(audioPlaylist.save("file:///C:/MyMusicPlayer/Playlists/global_playlist.m3u","m3u")) {
                 console.log("Playlist Saved")
             }
             else {
                 console.log("Playlist Save  Failed"+audioPlaylist.errorString)
-                console.log(shortcuts.music)
             }
             if(audioPlayer.status==MediaPlayer.NoMedia) {
                 audioPlaylist.currentIndex=0
             }
 
         }
+
+        function basename(url) {
+            return (String(url).slice(String(url).lastIndexOf("/")+1,-4))
+        }
     }
 
-   Audio {
+   MediaPlayer {
         id: audioPlayer
         audioRole: Audio.MusicRole
         playlist: Playlist {
@@ -129,6 +137,12 @@ ApplicationWindow {
                 audioPlaylist.load("file:///C:/MyMusicPlayer/Playlists/global_playlist.m3u","m3u")
                 audioPlaylist.currentIndex= lastSongPlayed<=audioPlaylist.itemCount ? lastSongPlayed : 0
             }
+
+        }
+        onMediaObjectChanged: {
+            url= audioPlaylist.currentItemSource()
+            console.log(filesLoader.basename(url))
+            console.log("change in song")
         }
     }
 

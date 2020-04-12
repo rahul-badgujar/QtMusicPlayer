@@ -7,8 +7,6 @@ import QtQuick.Dialogs 1.2
 
 Pane {
     id: optionBar
-    width: parent.width/10
-    height: parent.height*(7.7/10)
     padding: 0
 
 
@@ -106,7 +104,7 @@ Pane {
 
             function onButtonClicked() {
                 console.log("Admin Button Clicked")
-                console.log(audioPlayer.playlist.currentItemSource)
+                console.log(filesLoader.basename(audioPlayer.playlist.currentItemSource))
             }
         }
     }

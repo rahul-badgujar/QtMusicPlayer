@@ -14,7 +14,7 @@ Pane {
     width: parent.width
     height: parent.height*(2.3/10)
     visible: true
-    opacity: 0.87
+    opacity: 0.93
     padding: height/13
 
 
@@ -267,6 +267,7 @@ Pane {
 
 
     }
+
 
     Settings {
         id: miniPlayerSettings
