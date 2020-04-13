@@ -75,13 +75,14 @@ Pane {
                 stepSize: 1
 
                 onMoved: {
-                    console.log("Slider moved to "+value)
-                    if(audioPlayer.seekable) {
-                        audioPlayer.seek(parseInt(value))
-
-                    }
-                    else {
-                        value: audioPlayer.position
+                    if(pressed) {
+                        console.log("Slider moved to "+value)
+                        if(audioPlayer.seekable) {
+                            audioPlayer.seek(parseInt(value))
+                        }
+                        else {
+                            value: audioPlayer.position
+                        }
                     }
                 }
 
@@ -117,7 +118,7 @@ Pane {
             spacing: 0
             Text {
                 id: songTitle
-                text: audioPlayer.metaData.title ? audioPlayer.metaData.title : "Title Unavailable"
+                text: audioPlayer.metaData.title ? audioPlayer.metaData.title : ""
                 width: parent.width*(1.7/5)
                 height: parent.height*(2.5/4)
                 elide: Text.ElideRight
@@ -129,7 +130,7 @@ Pane {
 
             Text {
                 id: albumTitle
-                text: audioPlayer.metaData.albumTitle ? audioPlayer.metaData.albumTitle : "Album Unavailable"
+                text: audioPlayer.metaData.albumTitle ? audioPlayer.metaData.albumTitle : ""
                 font.pointSize: 8
                 font.italic: true
                 color: application.lightForeground
@@ -142,7 +143,7 @@ Pane {
     Pane {
         id: contolsPane
         height: parent.height*(2.5/4)
-        width: parent.width*(2/5)
+        width: parent.width*(1.5/5)
         anchors.bottom: parent.bottom
         anchors.right: parent.right
 
@@ -213,7 +214,7 @@ Pane {
                     audioPlayer.playlist.next()
                 }
             }
-            Button {
+            /*Button {
                 id: playmodeButton
                 property string singlePlaymodeURL: "qrc:/normal/single"
                 property string repeatPlaymodeURL: "qrc:/normal/repeat"
@@ -262,7 +263,7 @@ Pane {
                     currentMode= currentMode%3
                     console.log(currentMode)
                 }
-            }
+            }*/
         }
 
 
@@ -272,7 +273,7 @@ Pane {
     Settings {
         id: miniPlayerSettings
         category: "MiniPlayer Settings"
-        property alias playmode: playmodeButton.currentMode
+        //property alias playmode: playmodeButton.currentMode
     }
 
 }

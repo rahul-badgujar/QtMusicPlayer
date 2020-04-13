@@ -20,8 +20,8 @@ Pane {
         topPadding: height/10
         bottomPadding: height/10
         opacity: 0.93
-        z: 2
-        Material.background: parent.Material.background
+        z: 10
+        Material.background: application.lightThemeOn ? "#e6e6e6" : "#1a1a1a"
         Label {
             id: titleText
             text: contentArea.contentTitle
@@ -30,8 +30,6 @@ Pane {
             color: application.Material.foreground
             font.pointSize: 20
         }
-        //Layout.alignment: Qt.AlignHCenter
-        //Material.elevation: 10
 
     }
 
@@ -49,27 +47,108 @@ Pane {
                 id: songslist
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-
-                leftMargin: 10
+                highlightFollowsCurrentItem: true
+                leftMargin: 30
                 spacing: 5
-                Layout.alignment: Qt.AlignHCenter
-
                 model: parent.playlist
-                delegate: Pane {
+                delegate: RoundButton {
                     id: songItem
-                    //radius: 10
-                    width: songslist.width
-                    //Material.background: application.Material.primary
-                    Material.elevation: 10
-                    background:  Text {
+                    width: songslist.width*(8.5/10)
+                    height: songslist.height/10
+                    radius: 15
+
+                    contentItem: Text {
                         id: songName
-                        font.pixelSize: 15;
+
+                        font.pixelSize: 14;
                         color: application.Material.foreground
                         text: filesLoader.basename(source)
-                        anchors.verticalCenter: songItem.verticalCenter
-                        anchors.left: songItem.left
-                        padding: 5
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                        leftPadding: 20
+                        z: 2
+
                     }
+
+                    background: Rectangle {
+                        id: delegateBackground
+                        radius: songItem.radius
+                        color: "Transparent"
+                        anchors.fill: parent
+                    }
+
+                    MouseArea {
+                        id: mouseHandle
+                        anchors.fill: parent
+                        acceptedButtons: Qt.RightButton | Qt.LeftButton
+                        hoverEnabled: true
+                        onDoubleClicked: {
+                            songslist.currentIndex=index
+                            audioPlaylist.currentIndex=songslist.currentIndex
+                        }
+                        onClicked: {
+                            if (mouse.button & Qt.RightButton) {
+
+                                actionsMenu.popup()
+                            }
+
+                        }
+                    }
+                    Menu {
+                        id: actionsMenu
+                        width: songslist.width/4
+                        font.pointSize: 11
+
+                        MenuItem {
+                            text: "Play"
+                            height: songItem.height*(2/3)
+                            onTriggered: {
+                                songslist.currentIndex=index
+                                audioPlaylist.currentIndex=songslist.currentIndex
+                            }
+                        }
+                        MenuItem {
+                             text: "Play Next"
+                             height: songItem.height*(2/3)
+                         }
+                         MenuItem {
+                             text: "Remove"
+                             height: songItem.height*(2/3)
+
+                         }
+
+                    }
+
+                    states: [
+
+                        State {
+                            name: "hovered"
+                            when: mouseHandle.containsMouse && index!=songslist.currentIndex
+                            PropertyChanges {
+                                target: delegateBackground
+                                color: application.lightThemeOn ? "#bfbfbf" : "#404040"
+
+                            }
+                        },
+
+                        State {
+                            name: "active"
+                            when: index==songslist.currentIndex
+                            PropertyChanges {
+                                target: delegateBackground
+                                color: application.Material.primary
+                                opacity: 0.9
+                            }
+                            PropertyChanges {
+                                target: songName
+                                color: "white"
+                                font.bold: true
+
+                            }
+                        }
+
+                    ]
+
                 }
 
                 ScrollBar.vertical: ScrollBar{
@@ -83,15 +162,17 @@ Pane {
                 header: Rectangle {
                     id: head
                     color: "transparent"
-                    height: title.height
+                    height: title.height+songslist.spacing
                     width: parent.width
                 }
                 footer: Rectangle {
                     id: foot
                     color: "transparent"
-                    height: miniPlayer.height
+                    height: miniPlayer.height+songslist.spacing
                     width: parent.width
                 }
+
+
         }
         Component.onCompleted: {
             contentArea.contentTitle="Playlist : "+container.playlistName

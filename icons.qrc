@@ -8,6 +8,7 @@
         <file alias="search-dark">Resources/Icon/search-dark.png</file>
         <file alias="sun">Resources/Icon/sun.png</file>
         <file alias="admin-dark">Resources/Icon/admin-dark.png</file>
+        <file alias="menu-dark">Resources/Icon/menu-dark.png</file>
     </qresource>
     <qresource prefix="/Light">
         <file alias="playlist-light">Resources/Icon/playlist-light.png</file>
@@ -18,6 +19,7 @@
         <file alias="moon">Resources/Icon/moon.png</file>
         <file alias="search-light">Resources/Icon/search-light.png</file>
         <file alias="admin-light">Resources/Icon/admin-light.png</file>
+        <file alias="menu-light">Resources/Icon/menu-light.png</file>
     </qresource>
     <qresource prefix="/normal">
         <file alias="next">Resources/Icon/next.png</file>
