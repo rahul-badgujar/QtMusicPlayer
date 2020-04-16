@@ -104,7 +104,7 @@ Pane {
 
             function onButtonClicked() {
                 console.log("Admin Button Clicked")
-                console.log(filesLoader.basename(audioPlayer.playlist.currentItemSource))
+                audioPlaylist.shuffle()
             }
         }
     }

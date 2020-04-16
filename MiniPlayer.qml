@@ -68,6 +68,7 @@ Pane {
                 from: 0
                 to: audioPlayer.duration
                 value: audioPlayer.position
+
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                 Material.foreground: application.lightForeground
@@ -212,6 +213,7 @@ Pane {
                 onClicked: {
                     console.log("Next Song Plz")
                     audioPlayer.playlist.next()
+
                 }
             }
             /*Button {
@@ -273,7 +275,6 @@ Pane {
     Settings {
         id: miniPlayerSettings
         category: "MiniPlayer Settings"
-        //property alias playmode: playmodeButton.currentMode
     }
 
 }

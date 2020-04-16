@@ -122,6 +122,8 @@ ApplicationWindow {
    MediaPlayer {
         id: audioPlayer
         audioRole: Audio.MusicRole
+        autoPlay: true
+        property int durationProgress: position
         playlist: Playlist {
             id: audioPlaylist
             property int lastSongPlayed: currentIndex
@@ -135,15 +137,21 @@ ApplicationWindow {
             Component.onCompleted: {
                 //audioPlaylist.clear()
                 audioPlaylist.load("file:///C:/MyMusicPlayer/Playlists/global_playlist.m3u","m3u")
+                var pos= audioPlayer.durationProgress
+                console.log(pos)
                 audioPlaylist.currentIndex= lastSongPlayed<=audioPlaylist.itemCount ? lastSongPlayed : 0
+                console.log(pos)
+                audioPlayer.seek(pos)
+            }
+            Component.onDestruction: {
+                audioPlaylist.save("file:///C:/MyMusicPlayer/Playlists/global_playlist.m3u","m3u")
+            }
+            onItemChanged: {
+                console.log("Change")
             }
 
         }
-        onMediaObjectChanged: {
-            url= audioPlaylist.currentItemSource()
-            console.log(filesLoader.basename(url))
-            console.log("change in song")
-        }
+
     }
 
 
@@ -159,6 +167,8 @@ ApplicationWindow {
         id: playerSettings
         category: "Audio Player Settings"
         property alias lastSongIndex: audioPlaylist.lastSongPlayed
+        property alias durToContinue: audioPlayer.durationProgress
+
     }
 
     Component.onCompleted: {
