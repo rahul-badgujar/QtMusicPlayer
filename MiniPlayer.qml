@@ -17,6 +17,9 @@ Pane {
     opacity: 0.93
     padding: height/13
 
+    property Playlist controllingPlaylist: null
+    property MediaPlayer musicPlayer: null
+
 
     Material.background: application.Material.primary
     Material.elevation: 100
@@ -32,7 +35,7 @@ Pane {
 
         background: Image {
             id: albumCover
-            source: audioPlayer.metaData.coverArtUrlSmall ? audioPlayer.metaData.coverArtUrlSmall : "qrc:/player/no_album_cover"
+            source: musicPlayer.metaData.coverArtUrlSmall ? musicPlayer.metaData.coverArtUrlSmall : "qrc:/player/no_album_cover"
             fillMode: Image.PreserveAspectFit
             sourceSize.width: parent.width
             sourceSize.height: parent.height
@@ -57,7 +60,7 @@ Pane {
             Layout.margins: 0
             Text {
                 id: currentTime
-                text: progressBarPane.msToTime(audioPlayer.position) ? progressBarPane.msToTime(audioPlayer.position) : "00:00"
+                text: progressBarPane.msToTime(musicPlayer.position) ? progressBarPane.msToTime(musicPlayer.position) : "00:00"
                 font.pointSize: 9
                 Layout.alignment: Qt.AlignRight
                 color: application.lightForeground
@@ -66,8 +69,8 @@ Pane {
             Slider {
                 id: slider
                 from: 0
-                to: audioPlayer.duration
-                value: audioPlayer.position
+                to: musicPlayer.duration
+                value: musicPlayer.position
 
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
@@ -78,11 +81,11 @@ Pane {
                 onMoved: {
                     if(pressed) {
                         console.log("Slider moved to "+value)
-                        if(audioPlayer.seekable) {
-                            audioPlayer.seek(parseInt(value))
+                        if(musicPlayer.seekable) {
+                            musicPlayer.seek(parseInt(value))
                         }
                         else {
-                            value: audioPlayer.position
+                            value: musicPlayer.position
                         }
                     }
                 }
@@ -91,7 +94,7 @@ Pane {
 
             Text {
                 id: totalTime
-                text: progressBarPane.msToTime(audioPlayer.duration) ? progressBarPane.msToTime(audioPlayer.duration) : "00:00"
+                text: progressBarPane.msToTime(musicPlayer.duration) ? progressBarPane.msToTime(musicPlayer.duration) : "00:00"
                 font.pointSize: 9
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                 color: application.lightForeground
@@ -119,7 +122,7 @@ Pane {
             spacing: 0
             Text {
                 id: songTitle
-                text: audioPlayer.metaData.title ? audioPlayer.metaData.title : ""
+                text: musicPlayer.metaData.title ? musicPlayer.metaData.title : ""
                 width: parent.width*(1.7/5)
                 height: parent.height*(2.5/4)
                 elide: Text.ElideRight
@@ -131,7 +134,7 @@ Pane {
 
             Text {
                 id: albumTitle
-                text: audioPlayer.metaData.albumTitle ? audioPlayer.metaData.albumTitle : ""
+                text: musicPlayer.metaData.albumTitle ? musicPlayer.metaData.albumTitle : ""
                 font.pointSize: 8
                 font.italic: true
                 color: application.lightForeground
@@ -165,8 +168,8 @@ Pane {
 
                 }
                 onClicked: {
-                    console.log("Previous Song Plz")
-                    audioPlayer.playlist.previous()
+                    controllingPlaylist.previous()
+                    musicPlayer.source= controllingPlaylist.currentItemSource
                 }
             }
             Button {
@@ -174,7 +177,7 @@ Pane {
                 Material.elevation: 20
                 property string playButtonURL: "qrc:/normal/play"
                 property string pauseButtonURL: "qrc:/normal/pause"
-                property bool songPlaying: false
+                property bool songPlaying: musicPlayer.playbackState == MediaPlayer.PlayingState
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 background: Image {
                     id: playButtonImg
@@ -184,17 +187,16 @@ Pane {
                     sourceSize.height: parent.height+parent.height/3
                 }
                 onClicked: {
-                    //console.log("Play/Pause Song Plz")
-                    if(audioPlayer.playbackState==MediaPlayer.PlayingState) {
-                            audioPlayer.pause()
+                    if(musicPlayer.playbackState==MediaPlayer.PlayingState) {
+                            musicPlayer.pause()
                             songPlaying=false
                     }
-                    else if(audioPlayer.playbackState==MediaPlayer.PausedState) {
-                        audioPlayer.play()
+                    else if(musicPlayer.playbackState==MediaPlayer.PausedState) {
+                        musicPlayer.play()
                         songPlaying=true
                     }
-                    else if(audioPlayer.playbackState==MediaPlayer.StoppedState && !(audioPlayer.status==MediaPlayer.NoMedia) ) {
-                        audioPlayer.play()
+                    else if(musicPlayer.playbackState==MediaPlayer.StoppedState && !(musicPlayer.status==MediaPlayer.NoMedia) ) {
+                        musicPlayer.play()
                         songPlaying=true
                     }
                 }
@@ -211,9 +213,8 @@ Pane {
                     sourceSize.height: parent.height
                 }
                 onClicked: {
-                    console.log("Next Song Plz")
-                    audioPlayer.playlist.next()
-
+                    controllingPlaylist.next()
+                    musicPlayer.source= controllingPlaylist.currentItemSource
                 }
             }
             /*Button {

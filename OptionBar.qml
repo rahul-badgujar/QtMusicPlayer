@@ -104,7 +104,7 @@ Pane {
 
             function onButtonClicked() {
                 console.log("Admin Button Clicked")
-                audioPlaylist.shuffle()
+
             }
         }
     }

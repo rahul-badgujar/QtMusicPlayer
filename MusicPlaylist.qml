@@ -13,6 +13,7 @@ ColumnLayout {
     anchors.fill: parent
 
     property Playlist playlist: null
+    property MediaPlayer musicPlayer: null
     property string playlistName: "Playlist Name"
     property int holdPosition: 0
 
@@ -58,6 +59,7 @@ ColumnLayout {
                     onDoubleClicked: {
                         songslist.currentIndex=index
                         container.playlist.currentIndex=songslist.currentIndex
+                        musicPlayer.source= container.playlist.currentItemSource
                     }
                     onClicked: {
                         if (mouse.button & Qt.RightButton) {
@@ -183,7 +185,6 @@ ColumnLayout {
                 target: audioPlaylist
                 onCurrentIndexChanged: {
                     songslist.positionViewAtIndex(songslist.currentIndex,ListView.Center)
-                    console.log("Change in index "+playlist.currentIndex)
 
                 }
             }
@@ -202,3 +203,5 @@ ColumnLayout {
 
 
 }
+
+

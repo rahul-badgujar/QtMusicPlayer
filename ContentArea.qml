@@ -36,6 +36,7 @@ Pane {
 
     MusicPlaylist {
         id: musicList
+        musicPlayer: audioPlayer
         playlist: audioPlaylist
         playlistName: "Now Playing"
         property string title: "Playlist : "+playlistName

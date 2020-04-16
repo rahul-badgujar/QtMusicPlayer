@@ -74,6 +74,9 @@ ApplicationWindow {
             id: miniPlayer
             visible: true
             anchors.bottom: parent.bottom
+
+            controllingPlaylist: audioPlaylist
+            musicPlayer: audioPlayer
         }
 
     }
@@ -124,35 +127,36 @@ ApplicationWindow {
         audioRole: Audio.MusicRole
         autoPlay: true
         property int durationProgress: position
-        playlist: Playlist {
-            id: audioPlaylist
-            property int lastSongPlayed: currentIndex
-            onLoaded: {
-                console.log("Playlist loading successful")
-            }
-            onLoadFailed: {
-                console.log("Playlist loading failed -> "+errorString)
-            }
+        property Playlist songsQueue: audioPlaylist
+        source: ""
 
-            Component.onCompleted: {
-                //audioPlaylist.clear()
-                audioPlaylist.load("file:///C:/MyMusicPlayer/Playlists/global_playlist.m3u","m3u")
-                var pos= audioPlayer.durationProgress
-                console.log(pos)
-                audioPlaylist.currentIndex= lastSongPlayed<=audioPlaylist.itemCount ? lastSongPlayed : 0
-                console.log(pos)
-                audioPlayer.seek(pos)
-            }
-            Component.onDestruction: {
-                audioPlaylist.save("file:///C:/MyMusicPlayer/Playlists/global_playlist.m3u","m3u")
-            }
-            onItemChanged: {
-                console.log("Change")
-            }
-
+        onStopped: {
+            if(duration==position)
+                songsQueue.next()
+            source= songsQueue.currentItemSource
         }
 
-    }
+   }
+
+   Playlist {
+       id: audioPlaylist
+       property int lastSongPlayed: currentIndex
+
+       Component.onCompleted: {
+           audioPlaylist.load("file:///C:/MyMusicPlayer/Playlists/global_playlist.m3u","m3u")
+           var pos= audioPlayer.durationProgress
+           console.log(pos)
+           audioPlaylist.currentIndex= lastSongPlayed<=audioPlaylist.itemCount ? lastSongPlayed : 0
+           console.log(pos)
+           audioPlayer.source= audioPlaylist.currentItemSource
+           audioPlayer.seek(pos)
+           audioPlayer.pause()
+
+           }
+       Component.onDestruction: {
+           audioPlaylist.save("file:///C:/MyMusicPlayer/Playlists/global_playlist.m3u","m3u")
+           }
+   }
 
 
     Settings {
