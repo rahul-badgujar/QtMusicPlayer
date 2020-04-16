@@ -10,7 +10,10 @@ Pane {
     id: contentArea
     padding: 0
 
-    property string contentTitle: musicList.title
+    property MediaPlayer musicPlayer: audioPlayer
+
+    property string contentTitle: "Sounds"
+    property int currentContentID: 1
 
     Pane {
         id: title
@@ -34,6 +37,79 @@ Pane {
 
     }
 
+    Pane {
+        id: soundsControl
+        width: parent.width
+        anchors.top: title.bottom
+        anchors.bottom: parent.bottom
+        visible: false
+
+        RowLayout {
+            width: parent.width*(2.5/3)
+            height: parent.height/10
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 10
+            Image {
+                id: volumedown
+                source: application.lightThemeOn ? "qrc:/Dark/volume-down-dark" : "qrc:/Light/volume-down-light"
+                sourceSize.height: parent.height/2
+                fillMode: Image.PreserveAspectFit
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        musicPlayer.volume-=0.1
+                    }
+                }
+            }
+
+            Slider {
+                id: soundsSlider
+                from: 1
+                to: 100
+                stepSize: 1
+                value: musicPlayer.volume*100
+
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                //Material.accent: application.lightThemeOn ? application.darkForeground : application.lightForeground
+            }
+            Image {
+                id: volumeadd
+                source: application.lightThemeOn ? "qrc:/Dark/volume-add-dark" : "qrc:/Light/volume-add-light"
+                sourceSize.height: parent.height/2
+                fillMode: Image.PreserveAspectFit
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        musicPlayer.volume+=0.1
+                    }
+                }
+            }
+
+        }
+
+        states: [
+            State {
+                name: "active"
+                when: contentArea.currentContentID== 3
+                PropertyChanges {
+                    target: contentArea
+                    contentTitle: "Sound : "+soundsSlider.value
+
+                }
+                PropertyChanges {
+                    target: soundsControl
+                    visible: true
+                }
+            }
+        ]
+
+    }
+
+
     MusicPlaylist {
         id: musicList
         musicPlayer: audioPlayer
@@ -41,6 +117,33 @@ Pane {
         playlistName: "Now Playing"
         property string title: "Playlist : "+playlistName
 
+        visible: false
+
+        states: [
+            State {
+                name: "active"
+                when: contentArea.currentContentID== 1
+                PropertyChanges {
+                    target: contentArea
+                    contentTitle: "Playlist : "+musicList.playlistName
+
+                }
+                PropertyChanges {
+                    target: musicList
+                    visible: true
+                }
+            }
+        ]
+
+    }
+
+    function hideAll() {
+        musicList.visible= false
+        soundsControl.visible= false
+    }
+
+    function showContent(contentID) {
+        currentContentID= contentID
     }
 
 

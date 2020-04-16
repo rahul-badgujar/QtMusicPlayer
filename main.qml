@@ -127,6 +127,7 @@ ApplicationWindow {
         audioRole: Audio.MusicRole
         autoPlay: true
         property int durationProgress: position
+        property double volumeValue: volume
         property Playlist songsQueue: audioPlaylist
         source: ""
 
@@ -145,12 +146,11 @@ ApplicationWindow {
        Component.onCompleted: {
            audioPlaylist.load("file:///C:/MyMusicPlayer/Playlists/global_playlist.m3u","m3u")
            var pos= audioPlayer.durationProgress
-           console.log(pos)
            audioPlaylist.currentIndex= lastSongPlayed<=audioPlaylist.itemCount ? lastSongPlayed : 0
-           console.log(pos)
            audioPlayer.source= audioPlaylist.currentItemSource
            audioPlayer.seek(pos)
            audioPlayer.pause()
+           audioPlayer.volume= audioPlayer.volumeValue
 
            }
        Component.onDestruction: {
@@ -172,6 +172,7 @@ ApplicationWindow {
         category: "Audio Player Settings"
         property alias lastSongIndex: audioPlaylist.lastSongPlayed
         property alias durToContinue: audioPlayer.durationProgress
+        property alias playerVolume: audioPlayer.volumeValue
 
     }
 

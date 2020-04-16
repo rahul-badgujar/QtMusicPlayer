@@ -42,7 +42,8 @@ Pane {
             Layout.preferredHeight: parent.height/optionBar.totalOptions
 
             function onButtonClicked() {
-                console.log("Playlist Button Clicked")
+                contentArea.hideAll()
+                contentArea.showContent(1)
             }
         }
 
@@ -66,8 +67,10 @@ Pane {
             Layout.preferredHeight: parent.height/optionBar.totalOptions
 
             function onButtonClicked() {
-                console.log("VolumeButton Clicked")
+                contentArea.hideAll()
+                contentArea.showContent(3)
             }
+
         }
 
         OptionButton {

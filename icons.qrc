@@ -9,6 +9,9 @@
         <file alias="sun">Resources/Icon/sun.png</file>
         <file alias="admin-dark">Resources/Icon/admin-dark.png</file>
         <file alias="menu-dark">Resources/Icon/menu-dark.png</file>
+        <file alias="mute-dark">Resources/Icon/mute-dark.png</file>
+        <file alias="volume-add-dark">Resources/Icon/volume-add-dark.png</file>
+        <file alias="volume-down-dark">Resources/Icon/volume-down-dark.png</file>
     </qresource>
     <qresource prefix="/Light">
         <file alias="playlist-light">Resources/Icon/playlist-light.png</file>
@@ -20,6 +23,9 @@
         <file alias="search-light">Resources/Icon/search-light.png</file>
         <file alias="admin-light">Resources/Icon/admin-light.png</file>
         <file alias="menu-light">Resources/Icon/menu-light.png</file>
+        <file alias="mute-light">Resources/Icon/mute-light.png</file>
+        <file alias="volume-add-light">Resources/Icon/volume-add-light.png</file>
+        <file alias="volume-down-light">Resources/Icon/volume-down-light.png</file>
     </qresource>
     <qresource prefix="/normal">
         <file alias="next">Resources/Icon/next.png</file>
