@@ -58,14 +58,17 @@ Pane {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        musicPlayer.volume-=0.1
+                        var v= musicPlayer.volume
+                        v-=0.1
+                        if(v<0.0) v=0.0
+                        musicPlayer.volume=v
                     }
                 }
             }
 
             Slider {
                 id: soundsSlider
-                from: 1
+                from: 0
                 to: 100
                 stepSize: 1
                 value: musicPlayer.volume*100
@@ -73,7 +76,9 @@ Pane {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                //Material.accent: application.lightThemeOn ? application.darkForeground : application.lightForeground
+                onMoved: {
+                    musicPlayer.volume=value/100
+                }
             }
             Image {
                 id: volumeadd
@@ -84,7 +89,11 @@ Pane {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        musicPlayer.volume+=0.1
+                        var v= musicPlayer.volume
+                        v+=0.1
+                        if(v>1.0) v=1.0
+                        musicPlayer.volume=v
+
                     }
                 }
             }
@@ -97,7 +106,7 @@ Pane {
                 when: contentArea.currentContentID== 3
                 PropertyChanges {
                     target: contentArea
-                    contentTitle: "Sound : "+soundsSlider.value
+                    contentTitle: "Sound : "+parseInt(soundsSlider.value)
 
                 }
                 PropertyChanges {
