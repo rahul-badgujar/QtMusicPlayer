@@ -9,6 +9,8 @@ Pane {
     id: optionBar
     padding: 0
 
+    z: 10
+
 
     Material.background: application.lightThemeOn ? "#d9d9d9" : "#333333"
     //Material.elevation: 10

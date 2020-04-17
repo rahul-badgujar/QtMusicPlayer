@@ -9,7 +9,7 @@ import QtMultimedia 5.12
 
 Pane {
     id: miniPlayer
-    z: 1
+    z: 20
 
     width: parent.width
     height: parent.height*(2.3/10)
@@ -80,14 +80,26 @@ Pane {
 
                 onMoved: {
                     if(pressed) {
-                        console.log("Slider moved to "+value)
+                        moveSlider()
+                    }
+                }
+
+                function moveSlider() {
+                    if(typeof moveSlider.i == "undefined") {
+                        moveSlider.i=0
+                    }
+
+                    console.log("Slider Counter "+moveSlider.i)
+                    if(moveSlider.i%2==0)  {
                         if(musicPlayer.seekable) {
                             musicPlayer.seek(parseInt(value))
                         }
                         else {
-                            value: musicPlayer.position
+                            value= musicPlayer.position
                         }
                     }
+
+                    moveSlider.i++
                 }
 
             }

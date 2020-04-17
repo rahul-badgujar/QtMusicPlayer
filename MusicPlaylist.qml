@@ -23,6 +23,9 @@ ColumnLayout {
             Layout.fillWidth: true
             leftMargin: 30
             spacing: 5
+            highlightFollowsCurrentItem: true
+            highlightMoveDuration: 300
+            highlightMoveVelocity: -1
             model: container.playlist
             property int currIndex: currentIndex
             delegate: RoundButton {
@@ -30,6 +33,7 @@ ColumnLayout {
                 width: songslist.width*(8.5/10)
                 height: songslist.height/10
                 radius: 15
+                z: 7
 
                 contentItem: Text {
                     id: songName
@@ -40,7 +44,7 @@ ColumnLayout {
                     verticalAlignment: Text.AlignVCenter
                     elide: Text.ElideRight
                     leftPadding: 20
-                    z: 2
+                    z: 8
 
                 }
 
@@ -123,7 +127,7 @@ ColumnLayout {
 
                     State {
                         name: "hovered"
-                        when: mouseHandle.containsMouse && source!=container.playlist.currentItemSource
+                        when: mouseHandle.containsMouse && songslist.currentIndex!=index
                         PropertyChanges {
                             target: delegateBackground
                             color: application.lightThemeOn ? "#bfbfbf" : "#404040"
@@ -134,11 +138,12 @@ ColumnLayout {
                     State {
                         name: "active"
                         when: source==container.playlist.currentItemSource
+
                         PropertyChanges {
                             target: delegateBackground
                             color: application.Material.primary
-                            opacity: 0.9
                         }
+
                         PropertyChanges {
                             target: songName
                             color: "white"
@@ -177,6 +182,7 @@ ColumnLayout {
                 width: parent.width
             }
 
+
             Component.onCompleted: {
                 positionViewAtIndex(currentIndex,ListView.Center)
             }
@@ -184,7 +190,9 @@ ColumnLayout {
             Connections {
                 target: audioPlaylist
                 onCurrentIndexChanged: {
-                    songslist.positionViewAtIndex(songslist.currentIndex,ListView.Center)
+                    //songslist.positionViewAtIndex(songslist.currentIndex,ListView.Visible)
+                    songslist.currentIndex= playlist.currentIndex
+
 
                 }
             }

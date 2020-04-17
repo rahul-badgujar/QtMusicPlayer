@@ -8,6 +8,7 @@ import Qt.labs.settings 1.1
 
 Pane {
     id: contentArea
+    z: 0
     padding: 0
 
     property MediaPlayer musicPlayer: audioPlayer
@@ -24,7 +25,7 @@ Pane {
         topPadding: height/10
         bottomPadding: height/10
         opacity: 0.93
-        z: 10
+        z: 9
         Material.background: application.lightThemeOn ? "#e6e6e6" : "#1a1a1a"
         Label {
             id: titleText
@@ -39,6 +40,7 @@ Pane {
 
     Pane {
         id: soundsControl
+        z: 1
         width: parent.width
         anchors.top: title.bottom
         anchors.bottom: parent.bottom
@@ -121,6 +123,7 @@ Pane {
 
     MusicPlaylist {
         id: musicList
+        z: 1
         musicPlayer: audioPlayer
         playlist: audioPlaylist
         playlistName: "Now Playing"
