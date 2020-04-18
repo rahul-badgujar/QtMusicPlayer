@@ -48,6 +48,15 @@ ApplicationWindow {
         Keys.onPressed: {
             if ((event.key === Qt.Key_T) && (event.modifiers & Qt.ControlModifier))
                 application.changeTheme()
+            else if ((event.key === Qt.Key_Q) && (event.modifiers & Qt.ControlModifier))
+                application.close()
+            else if ((event.key === Qt.Key_Space)) {
+                if(audioPlayer.playbackState==MediaPlayer.PlayingState)
+                    audioPlayer.pause()
+                else if(audioPlayer.playbackState==MediaPlayer.PausedState)
+                    audioPlayer.play()
+            }
+
         }
 
         OptionBar {
@@ -124,17 +133,20 @@ ApplicationWindow {
 
    MediaPlayer {
         id: audioPlayer
+        objectName: "mediaPlayer"
         audioRole: Audio.MusicRole
         autoPlay: true
         property int durationProgress: position
         property double volumeValue: volume
         property Playlist songsQueue: audioPlaylist
         source: ""
+        property var coverArtURL: metaData.coverArtUrlSmall ? metaData.coverArtUrlSmall : "qrc:/player/no_album_cover"
 
         onStopped: {
             if(duration==position)
                 songsQueue.next()
             source= songsQueue.currentItemSource
+            console.log(metaData.coverArtUrlSmall)
         }
 
    }

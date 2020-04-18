@@ -1,6 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlEngine>
 #include <QQuickStyle>
+#include <ColorImageProvider.h>
 
 int main(int argc, char *argv[])
 {
@@ -21,6 +23,8 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     QQuickStyle::setStyle("Material");
     engine.load(url);
+
+    engine.addImageProvider(QLatin1String("ImageProvider"), new ColorImageProvider);
 
     return app.exec();
 }

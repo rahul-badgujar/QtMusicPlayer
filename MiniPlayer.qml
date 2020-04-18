@@ -35,7 +35,7 @@ Pane {
 
         background: Image {
             id: albumCover
-            source: musicPlayer.metaData.coverArtUrlSmall ? musicPlayer.metaData.coverArtUrlSmall : "qrc:/player/no_album_cover"
+            source: musicPlayer.coverArtURL
             fillMode: Image.PreserveAspectFit
             sourceSize.width: parent.width
             sourceSize.height: parent.height
