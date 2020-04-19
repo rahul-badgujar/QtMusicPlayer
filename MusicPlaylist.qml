@@ -91,32 +91,14 @@ ColumnLayout {
                          text: "Play Next"
                          height: songItem.height*(2/3)
                          onTriggered: {
-                             var i= container.playlist.currentIndex
-                             if(index>i) {
-                                container.playlist.moveItem(index,i+1)
-                             }
-                             else if(index<i) {
-                                 container.playlist.moveItem(index,i)
-                                 container.playlist.currentIndex= i-1
-
-                             }
-
+                            container.moveInPlaylist(index,container.playlist.currentIndex+1)
                          }
                      }
                      MenuItem {
                          text: "Remove"
                          height: songItem.height*(2/3)
                          onTriggered: {
-                             var i= container.playlist.currentIndex
-                             if(index>i) {
-                                container.playlist.removeItem(index)
-                             }
-                             else if(index<i) {
-                                 container.playlist.removeItem(index)
-                                 container.playlist.currentIndex= i-1
-
-                             }
-
+                             container.removeFromPlaylist(index)
                          }
 
                      }
@@ -209,6 +191,45 @@ ColumnLayout {
         songslist.positionViewAtIndex(songslist.currentIndex,ListView.Center)
     }
 
+    function moveInPlaylist(from,to) {
+        var i= playlist.currentIndex
+
+        if((from<i && to<i) || (from>i && to>i)) {   // ||
+            playlist.moveItem(from,to)
+            playlist.currentIndex=i
+        }
+        else if(from<i && to>i) {
+            playlist.moveItem(from,to-1)
+            playlist.currentIndex= i-1
+        }
+        else if(from>i && to<i) {
+            playlist.moveItem(from,to)
+            playlist.currentIndex= i+1
+        }
+        else if(from===i) {
+            playlist.moveItem(from,to)
+            playlist.currentIndex= to
+        }
+        else if(to===i) {
+            playlist.moveItem(from,to)
+            playlist.currentIndex=i+1
+        }
+    }
+
+    function removeFromPlaylist(indx) {
+        var i= playlist.currentIndex
+        playlist.removeItem(indx)
+        if(indx>i) {
+            playlist.currentIndex= i
+        }
+        else if(indx<i) {
+            playlist.currentIndex= i-1
+        }
+        else if(indx===i) {
+            playlist.currentIndex= i
+            musicPlayer.stop()
+        }
+    }
 
 }
 

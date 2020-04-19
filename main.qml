@@ -151,7 +151,8 @@ ApplicationWindow {
 
    }
 
-   Playlist {
+   Playlist
+   {
        id: audioPlaylist
        property int lastSongPlayed: currentIndex
 
@@ -168,6 +169,7 @@ ApplicationWindow {
        Component.onDestruction: {
            audioPlaylist.save("file:///C:/MyMusicPlayer/Playlists/global_playlist.m3u","m3u")
            }
+
    }
 
 
