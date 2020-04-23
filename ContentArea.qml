@@ -152,6 +152,7 @@ Pane {
     function hideAll() {
         musicList.visible= false
         soundsControl.visible= false
+        currentContentID= -1
     }
 
     function showContent(contentID) {
