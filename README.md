@@ -2,6 +2,6 @@
 A QtQuick Music Player made with Qt5
 
 Developer:
-Rahul Badgujar
+Rahul D. Badgujar
 PCCOE Pune
 India
